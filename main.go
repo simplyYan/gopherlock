@@ -28,7 +28,6 @@ var sites = map[string]string{
 	"WordPress":            "https://%s.wordpress.com",
 	"Blogger":              "https://%s.blogspot.com",
 	"Medium":               "https://medium.com/@%s",
-	"Quora":                "https://www.quora.com/profile/%s",
 	"StackOverflow":        "https://stackoverflow.com/users/%s",
 	"DeviantArt":           "https://%s.deviantart.com",
 	"Dribbble":             "https://dribbble.com/%s",
