@@ -144,12 +144,45 @@ func checkUsername(site, url, username string) {
 		return
 	}
 
-	if resp.Find("body").Text() != "" {
-		fmt.Printf("User found at %s: %s\n", site, fmt.Sprintf(url, username))
-	} else {
+	bodyText := resp.Find("body").Text()
+	if isProfileNotFound(bodyText) {
 		fmt.Printf("User not found in %s\n", site)
 		tryVariations(site, url, username)
+	} else {
+		fmt.Printf("User found at %s: %s\n", site, fmt.Sprintf(url, username))
 	}
+}
+
+func isProfileNotFound(bodyText string) bool {
+
+	notFoundStrings := []string{
+		"not found",
+		"page not available",
+		"Error 404",
+		"https://www.cryptocompare.com/profile/simplyYan/",
+		"Not found",
+		"Page not available",
+		"Not Found",
+		"Page Not Available",
+		"NOT FOUND",
+		"PAGE NOT AVAILABLE",
+		"couldn't find that page.",
+		"Couldn't find that page",
+		"not registered",
+		"404",
+		"400",
+		"The page you're looking for doesn't exist.",
+		"Sorry you couldn’t get to where you wanted to go.",
+		"We're sorry, but the user couldn't be found.",
+		"Page Not Found",
+	}
+
+	for _, s := range notFoundStrings {
+		if strings.Contains(strings.ToLower(bodyText), strings.ToLower(s)) {
+			return true
+		}
+	}
+	return false
 }
 
 func tryVariations(site, url, username string) {
